@@ -1,8 +1,6 @@
 package encryptdecrypt;
 
-import encryptdecrypt.strategy.Algorithm;
-import encryptdecrypt.strategy.ShiftAlgorithm;
-import encryptdecrypt.strategy.UnicodeAlgorithm;
+import encryptdecrypt.strategy.*;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -15,27 +13,16 @@ public class EncryptorDecryptor {
     private String mode, data, out, in;
     private int key;
 
-    private void setCoder(String type) {
-        switch (type) {
-            case "shift":
-                coder = new ShiftAlgorithm();
-                break;
-            case "unicode":
-                coder = new UnicodeAlgorithm();
-                break;
-        }
+    public EncryptorDecryptor(Algorithm coder, String mode, String data, String out, String in, int key) {
+        this.coder = coder;
+        this.mode = mode;
+        this.data = data;
+        this.out = out;
+        this.in = in;
+        this.key = key;
     }
 
-    public EncryptorDecryptor() {
-        coder = new ShiftAlgorithm();
-        mode = "enc";
-        data = "";
-        key = 0;
-    }
-
-    public void start(String[] args) {
-        parseArgs(args);
-
+    public void start() {
         prepareData();
         processData();
         outputData();
@@ -66,30 +53,6 @@ public class EncryptorDecryptor {
             }
         } else
             System.out.println(data);
-    }
-
-    private void parseArgs(String[] args) {
-        for (int i = 0; i < args.length; i = i + 2) {
-            switch (args[i]) {
-                case "-mode":
-                    this.mode = args[i + 1];
-                    break;
-                case "-key":
-                    this.key = Integer.parseInt(args[i + 1]);
-                    break;
-                case "-data":
-                    this.data = args[i + 1];
-                    break;
-                case "-out":
-                    this.out = args[i + 1];
-                    break;
-                case "-in":
-                    this.in = args[i + 1];
-                    break;
-                case "-alg":
-                    setCoder(args[i + 1]);
-            }
-        }
     }
 
     private String readFileAsString(String fileName) throws IOException {
