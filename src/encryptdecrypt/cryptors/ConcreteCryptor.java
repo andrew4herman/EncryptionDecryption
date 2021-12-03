@@ -1,18 +1,18 @@
-package encryptdecrypt;
+package encryptdecrypt.cryptors;
 
-import encryptdecrypt.strategy.*;
+import encryptdecrypt.strategy.Algorithm;
 import encryptdecrypt.util.ReaderWriter;
 
 import java.io.IOException;
 
-public class EncryptorDecryptor {
+public class ConcreteCryptor extends AbstractCryptor {
 
     private final Algorithm coder;
     private final String mode, out, in;
     private final int key;
     private String data;
 
-    public EncryptorDecryptor(Algorithm coder, String mode, String data, String out, String in, int key) {
+    public ConcreteCryptor(Algorithm coder, String mode, String data, String out, String in, int key) {
         this.coder = coder;
         this.mode = mode;
         this.data = data;
@@ -21,29 +21,22 @@ public class EncryptorDecryptor {
         this.key = key;
     }
 
-    public void start() {
-        try {
-            prepareData();
-            processData();
-            outputData();
-        } catch (IOException e) {
-            System.out.println("Error");
-        }
-    }
-
-    private void prepareData() throws IOException {
+    @Override
+    protected void prepareData() throws IOException {
         if (data.isEmpty() && in != null)
             data = ReaderWriter.readFileAsString(in);
     }
 
-    private void processData() {
+    @Override
+    protected void processData() {
         data = coder.crypt(
                 data,
                 mode.equals("enc") ? key : -key
         );
     }
 
-    private void outputData() throws IOException {
+    @Override
+    protected void outputData() throws IOException {
         ReaderWriter.outputData(data, out);
     }
 }
