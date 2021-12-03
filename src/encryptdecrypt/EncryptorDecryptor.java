@@ -1,18 +1,16 @@
 package encryptdecrypt;
 
 import encryptdecrypt.strategy.*;
+import encryptdecrypt.util.ReaderWriter;
 
-import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 public class EncryptorDecryptor {
 
     private final Algorithm coder;
     private final String mode, out, in;
+    private final int key;
     private String data;
-    private int key;
 
     public EncryptorDecryptor(Algorithm coder, String mode, String data, String out, String in, int key) {
         this.coder = coder;
@@ -24,39 +22,28 @@ public class EncryptorDecryptor {
     }
 
     public void start() {
-        prepareData();
-        processData();
-        outputData();
-    }
-
-    private void prepareData() {
-        if (data.isEmpty() && in != null) {
-            try {
-                data = readFileAsString(in);
-            } catch (IOException e) {
-                System.out.println("Error");
-            }
+        try {
+            prepareData();
+            processData();
+            outputData();
+        } catch (IOException e) {
+            System.out.println("Error");
         }
     }
 
+    private void prepareData() throws IOException {
+        if (data.isEmpty() && in != null)
+            data = ReaderWriter.readFileAsString(in);
+    }
+
     private void processData() {
-        key = (mode.equals("enc") ? key : -key);
-
-        data = coder.crypt(data, key);
+        data = coder.crypt(
+                data,
+                mode.equals("enc") ? key : -key
+        );
     }
 
-    private void outputData() {
-        if (out != null) {
-            try (FileWriter writer = new FileWriter(out)) {
-                writer.write(data);
-            } catch (IOException e) {
-                System.out.println("Error");
-            }
-        } else
-            System.out.println(data);
-    }
-
-    private String readFileAsString(String fileName) throws IOException {
-        return new String(Files.readAllBytes(Paths.get(fileName)));
+    private void outputData() throws IOException {
+        ReaderWriter.outputData(data, out);
     }
 }
