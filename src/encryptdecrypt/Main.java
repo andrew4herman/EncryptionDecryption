@@ -22,6 +22,4 @@ public class Main {
 
         encryptorDecryptor.start();
     }
-
-
 }

@@ -30,5 +30,4 @@ public class UnicodeAlgorithm implements Algorithm {
 
         return result.toString();
     }
-
 }

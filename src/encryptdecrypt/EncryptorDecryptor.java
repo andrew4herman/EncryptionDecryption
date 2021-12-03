@@ -9,8 +9,9 @@ import java.nio.file.Paths;
 
 public class EncryptorDecryptor {
 
-    private Algorithm coder;
-    private String mode, data, out, in;
+    private final Algorithm coder;
+    private final String mode, out, in;
+    private String data;
     private int key;
 
     public EncryptorDecryptor(Algorithm coder, String mode, String data, String out, String in, int key) {

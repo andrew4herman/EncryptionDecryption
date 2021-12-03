@@ -22,7 +22,7 @@ public class ShiftAlgorithm implements Algorithm {
     @Override
     public String crypt(String data, int key) {
         StringBuilder result = new StringBuilder();
-        char upper = 'z', lower = 'a';
+        char upper, lower;
 
         for (char c : data.toCharArray()) {
             if (Character.isAlphabetic(c)) {
@@ -43,5 +43,4 @@ public class ShiftAlgorithm implements Algorithm {
 
         return result.toString();
     }
-
 }

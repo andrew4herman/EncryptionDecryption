@@ -4,11 +4,11 @@ import java.util.HashMap;
 
 public class CliParser {
 
+    private final HashMap<String, Integer> optionIndexes;
     private String[] args;
-    private HashMap<String, Integer> optionIndexes;
 
     public CliParser(String[] arguments) {
-        optionIndexes = new HashMap<String, Integer>();
+        optionIndexes = new HashMap<>();
         parse(arguments);
     }
 
@@ -20,10 +20,6 @@ public class CliParser {
                 optionIndexes.put(args[i], i);
             }
         }
-    }
-
-    public boolean optionPresent(String optionName) {
-        return optionIndexes.containsKey(optionName);
     }
 
     public String optionValue(String switchName) {
@@ -40,5 +36,4 @@ public class CliParser {
 
         return defaultValue;
     }
-
 }
