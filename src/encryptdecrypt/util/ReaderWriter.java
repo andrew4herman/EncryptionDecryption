@@ -15,6 +15,7 @@ public class ReaderWriter {
         if (outFile != null) {
             FileWriter writer = new FileWriter(outFile);
             writer.write(data);
+            writer.close();
         } else System.out.println(data);
     }
 }
