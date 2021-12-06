@@ -2,10 +2,10 @@ package encryptdecrypt.strategy;
 
 /**
  * Abstract strategy in Strategy pattern.
- * Base class for algorithms
+ * Base class for ciphers of different algorithms
  * Contains single method to encrypt and decrypt data.
  */
-public interface Algorithm {
+public interface Cipher {
 
     /**
      * <p>

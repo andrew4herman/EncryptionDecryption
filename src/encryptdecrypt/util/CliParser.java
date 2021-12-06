@@ -1,10 +1,11 @@
-package encryptdecrypt.parsers;
+package encryptdecrypt.util;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class CliParser {
 
-    private final HashMap<String, Integer> optionIndexes;
+    private final Map<String, Integer> optionIndexes;
     private String[] args;
 
     public CliParser(String[] arguments) {
@@ -22,11 +23,11 @@ public class CliParser {
         }
     }
 
-    public String optionValue(String switchName) {
-        return optionValueOrDefault(switchName, null);
+    public String optionOf(String switchName) {
+        return optionOrDefaultOf(switchName, null);
     }
 
-    public String optionValueOrDefault(String optionName, String defaultValue) {
+    public String optionOrDefaultOf(String optionName, String defaultValue) {
         if (!optionIndexes.containsKey(optionName)) return defaultValue;
 
         int switchIndex = optionIndexes.get(optionName);

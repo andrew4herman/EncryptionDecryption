@@ -3,11 +3,11 @@ package encryptdecrypt.strategy;
 /**
  * <p>
  * Concrete strategy in Strategy pattern. <br/>
- * Implementation of Algorithm interface, that change data by <br/>
+ * Implementation of Cryptor interface, that change data by <br/>
  * shifting each letter up/down of the alphabet (a-z & A-Z).
  * </p>
  */
-public class ShiftAlgorithm implements Algorithm {
+public class ShiftCipher implements Cipher {
 
     /**
      * <p>
