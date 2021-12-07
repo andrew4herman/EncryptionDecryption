@@ -1,4 +1,4 @@
-package encryptdecrypt.strategy;
+package crypting.strategy;
 
 /**
  * Abstract strategy in Strategy pattern.
