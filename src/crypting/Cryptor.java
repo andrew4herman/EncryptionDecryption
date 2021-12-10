@@ -1,14 +1,13 @@
 package crypting;
 
 import crypting.strategy.Cipher;
-import crypting.strategy.ShiftCipher;
 
 public class Cryptor {
 
     private Cipher cipher;
 
-    public Cryptor() {
-        this.cipher = new ShiftCipher();
+    public Cryptor(Cipher cipher) {
+        this.cipher = cipher;
     }
 
     public void setCipher(Cipher cipher) {

@@ -1,5 +1,6 @@
 package crypting;
 
+import crypting.strategy.ShiftCipher;
 import crypting.strategy.UnicodeCipher;
 
 public class Main {
@@ -9,7 +10,7 @@ public class Main {
 
     public static void main(String[] args) {
         parser = new CliParser(args);
-        cryptor = new Cryptor();
+        cryptor = new Cryptor(new ShiftCipher());
 
         if ("unicode".equals(parser.optionOf("-alg")))
             cryptor.setCipher(new UnicodeCipher());
@@ -19,8 +20,7 @@ public class Main {
 
         if (outFilePath != null)
             FileReaderWriter.writeTo(outFilePath, cryptedData);
-        else
-            System.out.println(cryptedData);
+        else System.out.println(cryptedData);
     }
 
     private static String readData() {
