@@ -1,43 +1,33 @@
 package crypting;
 
-import crypting.strategy.ShiftCipher;
-import crypting.strategy.UnicodeCipher;
+import crypting.strategy.*;
 
 public class Main {
 
-    private static CliParser parser;
-    private static Cryptor cryptor;
-
     public static void main(String[] args) {
-        parser = new CliParser(args);
-        cryptor = new Cryptor(new ShiftCipher());
-
-        if ("unicode".equals(parser.optionOf("-alg")))
-            cryptor.setCipher(new UnicodeCipher());
+        CliParser parser = new CliParser(args);
+        Cryptor cryptor = new Cryptor(new ShiftCipher());
 
         String outFilePath = parser.optionOf("-out");
-        String cryptedData = getCryptedOf(readData());
+        String inFilePath = parser.optionOf("-in");
+        String mode = parser.optionOf("-mode");
+        String algorithm = parser.optionOf("-alg");
+        String data = parser.optionOrDefault("-data", "");
+        int key = Integer.parseInt(parser.optionOrDefault("-key", "0"));
+
+        if ("unicode".equals(algorithm))
+            cryptor.setCipher(new UnicodeCipher());
+
+        if (data.isEmpty() && inFilePath != null)
+            data = FileReaderWriter.readFrom(parser.optionOf("-in"));
+
+        String cryptedData = "dec".equals(mode) ?
+                cryptor.decrypt(data, key) :
+                cryptor.encrypt(data, key);
 
         if (outFilePath != null)
             FileReaderWriter.writeTo(outFilePath, cryptedData);
-        else System.out.println(cryptedData);
-    }
-
-    private static String readData() {
-        String data = parser.optionOrDefault("-data", "");
-
-        if (data.isEmpty() && parser.optionOf("-in") != null)
-            data = FileReaderWriter.readFrom(parser.optionOf("-in"));
-
-        return data;
-    }
-
-    private static String getCryptedOf(String raw) {
-        int key = Integer.parseInt(parser.optionOrDefault("-key", "0"));
-
-        return switch (parser.optionOf("-mode")) {
-            case "dec" -> cryptor.decrypt(raw, key);
-            default -> cryptor.encrypt(raw, key);
-        };
+        else
+            System.out.println(cryptedData);
     }
 }
