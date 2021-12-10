@@ -14,10 +14,11 @@ public class Main {
         if ("unicode".equals(parser.optionOf("-alg")))
             cryptor.setCipher(new UnicodeCipher());
 
+        String outFilePath = parser.optionOf("-out");
         String cryptedData = getCryptedOf(readData());
 
-        if (parser.optionOf("-out") != null)
-            FileReaderWriter.writeTo(parser.optionOf("-out"), cryptedData);
+        if (outFilePath != null)
+            FileReaderWriter.writeTo(outFilePath, cryptedData);
         else
             System.out.println(cryptedData);
     }
