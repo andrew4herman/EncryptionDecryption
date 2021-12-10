@@ -14,10 +14,12 @@ public class Main {
         if ("unicode".equals(parser.optionOf("-alg")))
             cryptor.setCipher(new UnicodeCipher());
 
+        String cryptedData = getCryptedOf(readData());
+
         if (parser.optionOf("-out") != null)
-            FileReaderWriter.writeTo(parser.optionOf("-out"), getCryptedData());
+            FileReaderWriter.writeTo(parser.optionOf("-out"), cryptedData);
         else
-            System.out.println(getCryptedData());
+            System.out.println(cryptedData);
     }
 
     private static String readData() {
@@ -29,13 +31,12 @@ public class Main {
         return data;
     }
 
-    private static String getCryptedData() {
-        String data = readData();
+    private static String getCryptedOf(String raw) {
         int key = Integer.parseInt(parser.optionOrDefault("-key", "0"));
 
-        return switch (parser.optionOrDefault("-mode", "enc")) {
-            case "dec" -> cryptor.decrypt(data, key);
-            default -> cryptor.encrypt(data, key);
+        return switch (parser.optionOf("-mode")) {
+            case "dec" -> cryptor.decrypt(raw, key);
+            default -> cryptor.encrypt(raw, key);
         };
     }
 }
