@@ -21,7 +21,7 @@ public class CliParser {
 
                 argValues.put(
                         args[i].toLowerCase(),
-                        args[i + 1].toLowerCase()
+                        args[i + 1]
                 );
             }
         }

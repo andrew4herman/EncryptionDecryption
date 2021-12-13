@@ -18,10 +18,8 @@ public class Main {
         Cryptor cryptor = new Cryptor(config.getCipher());
 
         try {
-            if (config.getData() == null && config.getInFile() != null)
+            if (config.getData().isEmpty() && config.getInFile() != null)
                 config.setData(FileReaderWriter.readFrom(config.getInFile()));
-            else
-                config.setData("");
 
             String cryptedData = "dec".equals(config.getMode()) ?
                     cryptor.decrypt(config.getData(), config.getKey()) :
