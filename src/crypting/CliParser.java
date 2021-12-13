@@ -6,19 +6,23 @@ import java.util.Map;
 public class CliParser {
 
     private final Map<String, String> argValues;
-    private String[] args;
 
     public CliParser(String[] arguments) {
         argValues = new HashMap<>();
         parse(arguments);
     }
 
-    private void parse(String[] arguments) {
-        this.args = arguments;
-
+    private void parse(String[] args) throws IllegalArgumentException {
         for (int i = 0; i < args.length; i++) {
             if (args[i].startsWith("-")) {
-                argValues.put(args[i], args[i + 1]);
+                if (i + 1 >= args.length || args[i + 1].startsWith("-"))
+                    throw new IllegalArgumentException(
+                            String.format("Error. Incorrect option for %s", args[i]));
+
+                argValues.put(
+                        args[i].toLowerCase(),
+                        args[i + 1].toLowerCase()
+                );
             }
         }
     }

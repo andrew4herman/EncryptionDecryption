@@ -1,36 +1,38 @@
 package crypting;
 
-import crypting.strategy.ShiftCipher;
-import crypting.strategy.UnicodeCipher;
+import java.io.IOException;
+import java.security.InvalidParameterException;
 
 public class Main {
 
     public static void main(String[] args) {
-        CliParser parser = new CliParser(args);
-        Cryptor cryptor;
+        CryptConfiguration config;
+        try {
+            config = new CryptConfiguration(new CliParser(args));
+            config.setParameters();
+        } catch (InvalidParameterException ex) {
+            System.out.println(ex.getMessage());
+            return;
+        }
 
-        String outFilePath = parser.optionOf("-out");
-        String inFilePath = parser.optionOf("-in");
-        String mode = parser.optionOf("-mode");
-        String algorithm = parser.optionOf("-alg");
-        String data = parser.optionOrDefault("-data", "");
-        int key = Integer.parseInt(parser.optionOrDefault("-key", "0"));
+        Cryptor cryptor = new Cryptor(config.getCipher());
 
-        cryptor = new Cryptor("unicode".equals(algorithm) ?
-                new UnicodeCipher() :
-                new ShiftCipher()
-        );
+        try {
+            if (config.getData() == null && config.getInFile() != null)
+                config.setData(FileReaderWriter.readFrom(config.getInFile()));
+            else
+                config.setData("");
 
-        if (data.isEmpty() && inFilePath != null)
-            data = FileReaderWriter.readFrom(parser.optionOf("-in"));
+            String cryptedData = "dec".equals(config.getMode()) ?
+                    cryptor.decrypt(config.getData(), config.getKey()) :
+                    cryptor.encrypt(config.getData(), config.getKey());
 
-        String cryptedData = "dec".equals(mode) ?
-                cryptor.decrypt(data, key) :
-                cryptor.encrypt(data, key);
-
-        if (outFilePath != null)
-            FileReaderWriter.writeTo(outFilePath, cryptedData);
-        else
-            System.out.println(cryptedData);
+            if (config.getOutFile() != null)
+                FileReaderWriter.writeTo(config.getOutFile(), cryptedData);
+            else
+                System.out.println(cryptedData);
+        } catch (IOException e) {
+            System.out.println("Error");
+        }
     }
 }

@@ -7,21 +7,12 @@ import java.nio.file.Paths;
 
 public class FileReaderWriter {
 
-    public static String readFrom(String fileName) {
-        String data = "";
-        try {
-            data = new String(Files.readAllBytes(Paths.get(fileName)));
-        } catch (IOException e) {
-            System.out.println("Error");
-        }
-        return data;
+    public static String readFrom(String fileName) throws IOException {
+        return new String(Files.readAllBytes(Paths.get(fileName)));
     }
 
-    public static void writeTo(String fileName, String data) {
-        try (FileWriter writer = new FileWriter(fileName)) {
-            writer.write(data);
-        } catch (IOException e) {
-            System.out.println("Error");
-        }
+    public static void writeTo(String fileName, String data) throws IOException {
+        FileWriter writer = new FileWriter(fileName);
+        writer.write(data);
     }
 }
