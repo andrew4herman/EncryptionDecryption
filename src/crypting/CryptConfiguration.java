@@ -6,23 +6,27 @@ import crypting.strategy.UnicodeCipher;
 
 public class CryptConfiguration {
 
-    private final CliParser parser;
     private String outFile, inFile, mode, data;
     private Cipher cipher;
     private int key;
 
     public CryptConfiguration(CliParser parser) {
-        this.parser = parser;
-    }
-
-    public void setParameters() {
         setOutFile(parser.optionOf("-out"));
         setInFile(parser.optionOf("-in"));
         setMode(parser.optionOrDefault("-mode", "enc"));
         setCipher(parser.optionOrDefault("-alg", "shift"));
-        setData(parser.optionOrDefault("-data", ""));
+        setData(parser.optionOf("-data"));
         setKey(parser.optionOrDefault("-key", "0"));
+
+        validateData();
     }
+
+    private void validateData() {
+        if (data == null && inFile == null) {
+            setData("");
+        }
+    }
+
 
     private void setOutFile(String outFile) {
         if (outFile != null && !outFile.endsWith(".txt"))
@@ -66,8 +70,7 @@ public class CryptConfiguration {
             key = Integer.parseInt(_key);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(
-                    String.format("Error. Key %s is not valid. Please write a number.", _key)
-            );
+                    String.format("Error. Key %s is not valid. Please write a number.", _key));
         } finally {
             this.key = key;
         }

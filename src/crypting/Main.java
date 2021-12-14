@@ -6,30 +6,35 @@ public class Main {
 
     public static void main(String[] args) {
         CryptConfiguration config;
-        try {
-            config = new CryptConfiguration(new CliParser(args));
-            config.setParameters();
-        } catch (IllegalArgumentException ex) {
-            System.err.println(ex.getMessage());
-            return;
-        }
-
+        config = new CryptConfiguration(new CliParser(args));
         Cryptor cryptor = new Cryptor(config.getCipher());
 
         try {
-            if (config.getData().isEmpty() && config.getInFile() != null)
-                config.setData(FileReaderWriter.readFrom(config.getInFile()));
-
-            String cryptedData = "dec".equals(config.getMode()) ?
-                    cryptor.decrypt(config.getData(), config.getKey()) :
-                    cryptor.encrypt(config.getData(), config.getKey());
-
-            if (config.getOutFile() != null)
-                FileReaderWriter.writeTo(config.getOutFile(), cryptedData);
-            else
-                System.out.println(cryptedData);
+            String inputData = getInputData(config);
+            String cryptedData = getCryptedData(config, cryptor, inputData);
+            writeCryptedData(config.getOutFile(), cryptedData);
         } catch (IOException e) {
             System.out.println("Error");
+        }
+    }
+
+    private static String getInputData(CryptConfiguration config) throws IOException {
+        return config.getData() == null ?
+                FileReaderWriter.readFrom(config.getInFile()) :
+                config.getData();
+    }
+
+    private static String getCryptedData(CryptConfiguration config, Cryptor cryptor, String data) {
+        return "dec".equals(config.getMode()) ?
+                cryptor.decrypt(data, config.getKey()) :
+                cryptor.encrypt(data, config.getKey());
+    }
+
+    private static void writeCryptedData(String filepath, String cryptedData) throws IOException {
+        if (filepath != null) {
+            FileReaderWriter.writeTo(filepath, cryptedData);
+        } else {
+            System.out.println(cryptedData);
         }
     }
 }
