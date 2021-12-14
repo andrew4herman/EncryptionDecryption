@@ -1,7 +1,6 @@
 package crypting;
 
 import java.io.IOException;
-import java.security.InvalidParameterException;
 
 public class Main {
 
@@ -10,8 +9,8 @@ public class Main {
         try {
             config = new CryptConfiguration(new CliParser(args));
             config.setParameters();
-        } catch (InvalidParameterException ex) {
-            System.out.println(ex.getMessage());
+        } catch (IllegalArgumentException ex) {
+            System.err.println(ex.getMessage());
             return;
         }
 

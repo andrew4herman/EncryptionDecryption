@@ -12,7 +12,7 @@ public class CliParser {
         parse(arguments);
     }
 
-    private void parse(String[] args) throws IllegalArgumentException {
+    private void parse(String[] args) {
         for (int i = 0; i < args.length; i++) {
             if (args[i].startsWith("-")) {
                 if (i + 1 >= args.length || args[i + 1].startsWith("-"))

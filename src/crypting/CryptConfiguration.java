@@ -15,7 +15,7 @@ public class CryptConfiguration {
         this.parser = parser;
     }
 
-    public void setParameters() throws IllegalArgumentException {
+    public void setParameters() {
         setOutFile(parser.optionOf("-out"));
         setInFile(parser.optionOf("-in"));
         setMode(parser.optionOrDefault("-mode", "enc"));
@@ -24,7 +24,7 @@ public class CryptConfiguration {
         setKey(parser.optionOrDefault("-key", "0"));
     }
 
-    private void setOutFile(String outFile) throws IllegalArgumentException {
+    private void setOutFile(String outFile) {
         if (outFile != null && !outFile.endsWith(".txt"))
             throw new IllegalArgumentException("Error. Output file should be in .txt extension.");
 
@@ -45,7 +45,7 @@ public class CryptConfiguration {
         this.mode = mode;
     }
 
-    private void setCipher(String algorithm) throws IllegalArgumentException {
+    private void setCipher(String algorithm) {
         this.cipher = switch (algorithm) {
             case "unicode" -> new UnicodeCipher();
             case "shift" -> new ShiftCipher();
@@ -59,7 +59,7 @@ public class CryptConfiguration {
         this.data = data;
     }
 
-    private void setKey(String _key) throws IllegalArgumentException {
+    private void setKey(String _key) {
         int key = 0;
 
         try {
