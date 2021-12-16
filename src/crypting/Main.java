@@ -11,8 +11,8 @@ public class Main {
 
         try {
             String inputData = getInputData(config);
-            String cryptData = getCryptedData(config, cryptor, inputData);
-            writeCryptedData(config.getOutFile(), cryptData);
+            String cryptedData = getCryptedData(config, cryptor, inputData);
+            writeCryptedData(config.getOutFile(), cryptedData);
         } catch (IOException e) {
             System.out.println("Error");
         }
