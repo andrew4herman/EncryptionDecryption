@@ -11,7 +11,7 @@ public class Main {
 
         try {
             String inputData = getInputData(config);
-            String cryptedData = getCryptedData(config, cryptor, inputData);
+            String cryptedData = cryptData(config, cryptor, inputData);
             writeCryptedData(config.getOutFile(), cryptedData);
         } catch (IOException e) {
             System.out.println("Error");
@@ -24,7 +24,7 @@ public class Main {
                 config.getData();
     }
 
-    private static String getCryptedData(CryptConfiguration config, Cryptor cryptor, String data) {
+    private static String cryptData(CryptConfiguration config, Cryptor cryptor, String data) {
         return "dec".equals(config.getMode()) ?
                 cryptor.decrypt(data, config.getKey()) :
                 cryptor.encrypt(data, config.getKey());
