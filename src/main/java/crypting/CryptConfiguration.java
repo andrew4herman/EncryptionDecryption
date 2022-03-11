@@ -4,6 +4,9 @@ import crypting.strategy.Cipher;
 import crypting.strategy.ShiftCipher;
 import crypting.strategy.UnicodeCipher;
 
+/**
+ * This class is responsible for parsing the command line arguments and creating configuration for crypting.
+ */
 public class CryptConfiguration {
 
     private String outFile, inFile, mode, data;
@@ -21,18 +24,19 @@ public class CryptConfiguration {
         validateData();
     }
 
-    private void validateData() {
-        if (data == null && inFile == null) {
-            setData("");
-        }
+    public String getOutFile() {
+        return outFile;
     }
-
 
     private void setOutFile(String outFile) {
         if (outFile != null && !outFile.endsWith(".txt"))
             throw new IllegalArgumentException("Error. Output file should be in .txt extension.");
 
         this.outFile = outFile;
+    }
+
+    public String getInFile() {
+        return inFile;
     }
 
     private void setInFile(String inFile) {
@@ -42,11 +46,27 @@ public class CryptConfiguration {
         this.inFile = inFile;
     }
 
+    public String getMode() {
+        return mode;
+    }
+
     private void setMode(String mode) {
         if (!mode.equals("enc") && !mode.equals("dec"))
             throw new IllegalArgumentException(String.format("Error. There is no %s mode.", mode));
 
         this.mode = mode;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
+
+    public Cipher getCipher() {
+        return cipher;
     }
 
     private void setCipher(String algorithm) {
@@ -59,8 +79,8 @@ public class CryptConfiguration {
         };
     }
 
-    public void setData(String data) {
-        this.data = data;
+    public int getKey() {
+        return key;
     }
 
     private void setKey(String _key) {
@@ -76,27 +96,9 @@ public class CryptConfiguration {
         }
     }
 
-    public String getOutFile() {
-        return outFile;
-    }
-
-    public String getInFile() {
-        return inFile;
-    }
-
-    public String getMode() {
-        return mode;
-    }
-
-    public String getData() {
-        return data;
-    }
-
-    public Cipher getCipher() {
-        return cipher;
-    }
-
-    public int getKey() {
-        return key;
+    private void validateData() {
+        if (data == null && inFile == null) {
+            setData("");
+        }
     }
 }

@@ -5,8 +5,7 @@ import java.io.IOException;
 public class Main {
 
     public static void main(String[] args) {
-        CryptConfiguration config;
-        config = new CryptConfiguration(new CliParser(args));
+        CryptConfiguration config = new CryptConfiguration(new CliParser(args));
         Cryptor cryptor = new Cryptor(config.getCipher());
 
         try {
