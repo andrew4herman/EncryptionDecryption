@@ -2,10 +2,9 @@ package crypting;
 
 import crypting.strategy.ShiftCipher;
 import crypting.strategy.UnicodeCipher;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CryptorTest {
 
