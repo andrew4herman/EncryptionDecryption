@@ -8,8 +8,11 @@ import crypting.strategy.UnicodeCipher;
  * This class is responsible for parsing the command line arguments and creating configuration for crypting.
  */
 public class CryptConfiguration {
+    private String outFile;
 
-    private String outFile, inFile, mode, data;
+    private String inFile;
+    private String mode;
+    private String data;
     private Cipher cipher;
     private int key;
 
@@ -22,6 +25,12 @@ public class CryptConfiguration {
         setKey(parser.optionOrDefault("-key", "0"));
 
         validateData();
+    }
+
+    private void validateData() {
+        if (data == null && inFile == null) {
+            setData("");
+        }
     }
 
     public String getOutFile() {
@@ -93,12 +102,6 @@ public class CryptConfiguration {
                     String.format("Error. Key %s is not valid. Please write a number.", _key));
         } finally {
             this.key = key;
-        }
-    }
-
-    private void validateData() {
-        if (data == null && inFile == null) {
-            setData("");
         }
     }
 }
